@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Digitech - Registro</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 20px 0; }
+    .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 380px; }
+    h1, h2 { text-align: center; color: #1a1a1a; margin: 5px 0; }
+    .row { display: flex; gap: 10px; }
+    .row > div { flex: 1; }
+    label { font-size: 0.85em; color: #333; margin-top: 8px; display: block; }
+    input, select, button { width: 100%; padding: 8px; margin-top: 4px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+    button { background: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 15px; padding: 10px; }
+    button:hover { background: #218838; }
+    .msg { padding: 8px; margin-bottom: 10px; border-radius: 4px; text-align: center; font-size: 0.9em; }
+    .error { background: #f8d7da; color: #721c24; }
+    .hidden { display: none; }
+    a { display: block; text-align: center; margin-top: 12px; color: #0066cc; text-decoration: none; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>DIGITECH</h1>
+    <h2>Registro de Persona</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="msg {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="/register" method="POST">
+      <label>RUN</label>
+      <input type="text" name="run" placeholder="12.345.678-K" required>
+
+      <div class="row">
+        <div>
+          <label>Nombre</label>
+          <input type="text" name="nombre" placeholder="Juan" required>
+        </div>
+        <div>
+          <label>Apellido</label>
+          <input type="text" name="apellido" placeholder="Pérez" required>
+        </div>
+      </div>
+
+      <label>Fecha de Nacimiento</label>
+      <input type="date" name="fecha_nacimiento" required>
+
+      <label>Teléfono</label>
+      <input type="tel" name="telefono" placeholder="+56 9 1234 5678" required>
+
+      <label>Correo Electrónico (Gmail)</label>
+      <input type="email" name="email" placeholder="ejemplo@gmail.com" required>
+
+      <label>Tipo de Persona</label>
+      <select name="tipo_persona" id="tipo_persona" onchange="toggleTipoPersona()" required>
+        <option value="cliente" selected>Cliente</option>
+        <option value="trabajador">Trabajador</option>
+      </select>
+
+      <div id="box-trabajador" class="hidden">
+        <label>Cargo / Rol</label>
+        <select name="rol_trabajador">
+          <option value="vendedor">Vendedor</option>
+          <option value="administrador">Administrador</option>
+        </select>
+      </div>
+
+      <label>Contraseña</label>
+      <input type="password" name="password" placeholder="********" required>
+
+      <label>Fecha de Registro</label>
+      <input type="date" name="fecha_registro" value="{{ today_date }}" readonly>
+
+      <button type="submit">Registrarse</button>
+    </form>
+    <a href="/login">¿Ya tienes cuenta? Inicia Sesión</a>
+  </div>
+
+  <script>
+    function toggleTipoPersona() {
+      const tipo = document.getElementById('tipo_persona').value;
+      const boxTrabajador = document.getElementById('box-trabajador');
+      if (tipo === 'trabajador') {
+        boxTrabajador.classList.remove('hidden');
+      } else {
+        boxTrabajador.classList.add('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

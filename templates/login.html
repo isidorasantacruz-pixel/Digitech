@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Digitech - Iniciar Sesión</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 320px; }
+    h1, h2 { text-align: center; color: #1a1a1a; margin-bottom: 10px; }
+    label { font-size: 0.85em; color: #333; }
+    input, button { width: 100%; padding: 10px; margin-top: 4px; margin-bottom: 12px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+    button { background: #0066cc; color: white; border: none; font-weight: bold; cursor: pointer; }
+    button:hover { background: #0052a3; }
+    .msg { padding: 8px; margin-bottom: 10px; border-radius: 4px; text-align: center; font-size: 0.9em; }
+    .error { background: #f8d7da; color: #721c24; }
+    .success { background: #d4edda; color: #155724; }
+    .info { background: #e2e3e5; color: #383d41; }
+    a { display: block; text-align: center; margin-top: 10px; color: #0066cc; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>DIGITECH</h1>
+    <h2>Iniciar Sesión</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="msg {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form action="/login" method="POST">
+      <label>Correo Electrónico (Gmail)</label>
+      <input type="email" name="email" placeholder="ejemplo@gmail.com" required>
+
+      <label>Contraseña</label>
+      <input type="password" name="password" placeholder="********" required>
+
+      <button type="submit">Ingresar</button>
+    </form>
+    <a href="/register">¿No tienes cuenta? Regístrate</a>
+  </div>
+</body>
+</html>
